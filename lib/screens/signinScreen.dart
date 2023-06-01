@@ -21,6 +21,8 @@ class _SignInScreenState extends State<SignInScreen> {
         final credential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
                 email: user.Email, password: user.Password);
+        formKey.currentState?.reset();
+
         Navigator.of(context).pushNamed("/category");
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {

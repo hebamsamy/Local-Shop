@@ -35,7 +35,7 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
           body: (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done)
-              ? GridView.builder(
+              ? GridView(
                   padding:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -44,34 +44,22 @@ class _ProductScreenState extends State<ProductScreen> {
                     mainAxisSpacing: 10,
                     childAspectRatio: 2 / 3,
                   ),
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (ctx, i) {
-                    print("item");
-                    print(snapshot.data?.docs[i].data()["categoryId"]);
-                    if (categoryId ==
-                        snapshot.data?.docs[i].data()["categoryId"]) {
-                      return ProductItem(
-                        product: Product(
-                          id: snapshot.data?.docs[i].id ?? "",
-                          categoryID:
-                              snapshot.data?.docs[i].data()["categoryId"],
-                          name: snapshot.data?.docs[i].data()["name"],
-                          quantity: snapshot.data?.docs[i].data()["quantity"],
-                          price: snapshot.data?.docs[i].data()["price"],
-                          description:
-                              snapshot.data?.docs[i].data()["description"] ??
-                                  "",
-                        ),
-                      );
-                    }
-                  })
-
-              //   CategoryItem(
-              //       category: Category(
-              //           id: snapshot.data?.docs[i].id ?? "",
-              //           name: snapshot.data?.docs[i].data()["name"]));
-              // })
-              : CircularProgressIndicator(color: Colors.black),
+                  children: snapshot.data?.docs
+                          .where((element) =>
+                              categoryId == element.data()["categoryId"])
+                          .map((item) => ProductItem(
+                                product: Product(
+                                  id: item.id,
+                                  categoryID: item.data()["categoryId"],
+                                  name: item.data()["name"],
+                                  quantity: item.data()["quantity"],
+                                  price: item.data()["price"],
+                                  description: item.data()["description"] ?? "",
+                                ),
+                              ))
+                          .toList() ??
+                      [])
+              : Center(child: CircularProgressIndicator(color: Colors.black)),
         );
       },
     );

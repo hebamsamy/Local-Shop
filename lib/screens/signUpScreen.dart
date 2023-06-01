@@ -16,20 +16,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var formKey = GlobalKey<FormState>();
   var user =
       UserRegister(UserName: "", Password: "", PhoneNumber: "", Email: "");
-  // Auth() {
-  //   _intializeMe().then((_) {
-  //     _firebaseAuth = FirebaseAuth.instance;
-  //   });
-  // }
-
-  // Future<FirebaseApp> _intializeMe() async {
-  //   return await Firebase.initializeApp();
-  // }
-
-  // @override
-  // void initState() {
-  //   Auth();
-  // }
 
   void SaveForm() async {
     if (formKey.currentState!.validate()) {
@@ -39,7 +25,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             .createUserWithEmailAndPassword(
                 email: user.Email, password: user.Password);
         print(credential.user);
-        Navigator.of(context).pushNamed("/category");
+        formKey.currentState?.reset();
+
+        Navigator.of(context).pushNamed("/signin");
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           print('The password provided is too weak.');

@@ -25,7 +25,7 @@ class CategoryScreen extends StatelessWidget {
                             id: snapshot.data?.docs[i].id ?? "",
                             name: snapshot.data?.docs[i].data()["name"]));
                   })
-              : CircularProgressIndicator(color: Colors.black),
+              : Center(child: CircularProgressIndicator(color: Colors.black)),
         );
       },
     );

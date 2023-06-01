@@ -37,8 +37,10 @@ class MyApp extends StatelessWidget {
             if (db.connectionState == ConnectionState.done) {
               return MainScreen();
             } else {
-              return const CircularProgressIndicator(
-                color: Colors.white,
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
               );
             }
           }),
